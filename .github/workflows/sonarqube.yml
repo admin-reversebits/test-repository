@@ -46,7 +46,9 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm start &   # Run in the background
+          sleep 5       # Wait for 5 seconds to ensure it's up
 
       - name: Run build
         run: npm start
