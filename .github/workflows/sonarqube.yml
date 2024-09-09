@@ -1,9 +1,6 @@
 name: SonarQube Scan
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -30,9 +27,12 @@ jobs:
         run: |
           npx sonar-scanner \
             -Dsonar.projectKey=admin-reversebits_test-sonarqube-2_4c4a85f0-034e-425c-abcc-0d7dc68cfedc \
-            -Dsonar.sources=. \
+            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
+            -Dsonar.pullrequest.branch=${{ github.head_ref }} \
+            -Dsonar.pullrequest.base=${{ github.base_ref }} \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
 
   build:
     runs-on: self-hosted
